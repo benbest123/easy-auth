@@ -41,21 +41,19 @@ def load_private_key() -> Ed25519PrivateKey:
 
     private_key_path = get_settings().private_key_path
 
-    if isinstance(private_key, Ed25519PrivateKey):
+    try:
+        private_key = serialization.load_pem_private_key(
+            private_key_path.read_bytes(), password=None
+        )
+    except FileNotFoundError:
+        raise RuntimeError(
+            f"No key at {private_key_path} — run 'uv run gen-keys'"
+        ) from None
 
-        try:
-            private_key = serialization.load_pem_private_key(
-                private_key_path.read_bytes(), password=None
-            )
+    if not isinstance(private_key, Ed25519PrivateKey):
+        raise TypeError("Private key must be Ed25519")
 
-            return private_key
-
-        except FileNotFoundError:
-            raise RuntimeError(
-                f"No key at {private_key_path} — run 'uv run gen-keys'"
-            ) from None
-
-    raise TypeError("Private key must be Ed25519")
+    return private_key
 
 
 def public_jwk(public_key: Ed25519PublicKey) -> dict:
