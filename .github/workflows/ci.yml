@@ -8,7 +8,7 @@ on:
 jobs:
 
   timeout-minutes: 10
-  
+
   check:
     runs-on: ubuntu-latest
 
@@ -38,3 +38,4 @@ jobs:
 
       - name: Test
         run: uv run pytest
+        
