@@ -19,7 +19,6 @@ dependencies = [
 ]
 
 [project.scripts]
-easy-auth = "easy_auth:main"
 gen-keys = "easy_auth.scripts.gen_keys:main"
 
 [tool.pytest.ini_options]

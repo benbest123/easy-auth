@@ -7,14 +7,14 @@ on:
 
 jobs:
 
-  timeout-minutes: 10
 
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     env:
-        DATABASE_URL: postgresql+asyncpg://test:test@localhost:5432/test
-        PRIVATE_KEY_PATH: /tmp/unused.pem
+      DATABASE_URL: postgresql+asyncpg://test:test@localhost:5432/test
+      PRIVATE_KEY_PATH: /tmp/unused.pem
 
     steps:
       - uses: actions/checkout@v4
@@ -38,4 +38,4 @@ jobs:
 
       - name: Test
         run: uv run pytest
-        
+
