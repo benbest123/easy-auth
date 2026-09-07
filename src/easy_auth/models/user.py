@@ -1,7 +1,6 @@
-import datetime as dt
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, Index, func, text
+from sqlalchemy import Index, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from easy_auth.core.db import Base
