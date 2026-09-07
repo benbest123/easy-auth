@@ -7,7 +7,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-
     database_url: SecretStr
 
     private_key_path: Path
@@ -19,6 +18,8 @@ class Settings(BaseSettings):
     refresh_token_ttl_days: int = 7
 
     session_absolute_lifetime_days: int = 14
+
+    jwks_cache_seconds: int = 24 * 60 * 60
 
     environment: Literal["dev", "prod"] = "dev"
 
