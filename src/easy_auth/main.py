@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
+from easy_auth.routers.get_jwks import router as jwks_router
+
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(jwks_router)
 
 # {
 #   "iss": "https://auth.benbest.uk",
@@ -29,7 +29,8 @@ async def root():
 # Parse json body
 # Hash password
 # If dupe email, send "someone tried to use your email", return same response
-# Write to DB with email_verified = 0 and Create membership row (client_id x user x role) (one transaction)
+# Write to DB with email_verified = 0 and
+# create membership row (client_id x user x role) (one transaction)
 # Create JWT token
 # Send access token in res body
 # Refresh token in __Host- cookie
@@ -41,7 +42,7 @@ async def root():
 
 # Login - POST route
 # @app.post("auth/login")
-# User send email and password and client_id 
+# User send email and password and client_id
 # Parse body
 # Check client - unknown -> reject
 # Compare password against stored (use dummy hash if user doesnt exist)\
@@ -99,12 +100,12 @@ async def root():
 # created_at - timestamp, not null
 
 # composite key on client and user
-# cascade on user and client deletion 
+# cascade on user and client deletion
 
 # # Refresh tokens
 # token_hash - unique, non null, PK
 # user_id - FK, index
-# family_id - non-null, index 
+# family_id - non-null, index
 # used_at - default = null, update when used
 # token_exp - timestamp, expiry
 # revoked_at - null, timestamp, delete after a few days

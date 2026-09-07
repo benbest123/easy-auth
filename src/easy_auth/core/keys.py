@@ -1,14 +1,19 @@
-from base64 import urlsafe_b64encode
-from functools import lru_cache
 import hashlib
 import json
+from base64 import urlsafe_b64encode
+from functools import lru_cache
+from pathlib import Path
+
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
-    Ed25519PublicKey,
     Ed25519PrivateKey,
+    Ed25519PublicKey,
 )
 
 from easy_auth.core.config import get_settings
+
+JWK = dict[str, str]
+JWKS = dict[str, list[JWK]]
 
 
 def b64url(raw: bytes) -> str:
@@ -56,7 +61,7 @@ def load_private_key() -> Ed25519PrivateKey:
     return private_key
 
 
-def public_jwk(public_key: Ed25519PublicKey) -> dict:
+def public_jwk(public_key: Ed25519PublicKey) -> JWK:
 
     public_key_b64 = _public_key_b64(public_key)
 
@@ -73,7 +78,7 @@ def public_jwk(public_key: Ed25519PublicKey) -> dict:
     return jwk
 
 
-def get_jwks() -> dict:
+def get_jwks() -> JWKS:
 
     public_key = load_private_key().public_key()
 
@@ -81,6 +86,7 @@ def get_jwks() -> dict:
 
 
 def get_signing_key() -> Ed25519PrivateKey:
+    # for now is redundant, but will be used in future once we have rotation
     return load_private_key()
 
 
@@ -89,3 +95,21 @@ def get_key_by_kid(kid: str) -> Ed25519PublicKey | None:
     public_key = load_private_key().public_key()
 
     return public_key if compute_kid(public_key) == kid else None
+
+
+def generate_key(key_path: Path) -> Ed25519PrivateKey:
+
+    key_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # generate private key and write to disk
+    private_key = Ed25519PrivateKey.generate()
+    private_bytes = private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption(),
+    )
+
+    key_path.write_bytes(private_bytes)
+    key_path.chmod(0o600)  # owner read/write only
+
+    return private_key
