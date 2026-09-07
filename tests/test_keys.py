@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import pytest
@@ -31,7 +32,9 @@ def test_missing_key_raises(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> 
 
     with pytest.raises(
         RuntimeError,
-        match=f"No key at {tmp_path}/missing_key.pem — run 'uv run gen-keys'",
+        match=re.escape(
+            f"No key at {tmp_path}/missing_key.pem — run 'uv run gen-keys'"
+        ),
     ):
         load_private_key()
 
