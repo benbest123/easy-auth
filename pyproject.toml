@@ -51,4 +51,4 @@ python_version = "3.14"
 strict = true
 warn_unreachable = true
 plugins = ["pydantic.mypy"]
-extend-exclude = ["alembic/versions"]
+exclude = ["alembic/versions/"]
