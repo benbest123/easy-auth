@@ -21,7 +21,7 @@ class RefreshToken(Base):
     user_id: Mapped[UUID] = mapped_column(
         ForeignKey("users.user_id", ondelete="CASCADE")
     )
-    family_id: Mapped[UUID] = mapped_column()
+    family_id: Mapped[UUID]
     used_at: Mapped[dt.datetime | None] = mapped_column(DateTime(timezone=True))
     expires_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True))
     revoked_at: Mapped[dt.datetime | None] = mapped_column(DateTime(timezone=True))
