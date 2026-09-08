@@ -16,4 +16,4 @@ class Membership(Base, TimestampMixin):
     client_id: Mapped[str] = mapped_column(
         ForeignKey("clients.client_id", ondelete="CASCADE"), primary_key=True
     )
-    role: Mapped[str] = mapped_column(default="user")
+    role: Mapped[str] = mapped_column(default="user", server_default="user")

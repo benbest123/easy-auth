@@ -1,4 +1,4 @@
-from sqlalchemy import String
+from sqlalchemy import String, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -13,7 +13,9 @@ class Client(Base, TimestampMixin):
     allowed_redirect_origins: Mapped[list[str]] = mapped_column(
         ARRAY(String), default=list
     )
-    auto_provision: Mapped[bool] = mapped_column(default=True)
+    auto_provision: Mapped[bool] = mapped_column(
+        default=True, server_default=text("true")
+    )
     cors_origins: Mapped[list[str]] = mapped_column(ARRAY(String), default=list)
     secret_hash: Mapped[str | None]
-    is_active: Mapped[bool] = mapped_column(default=True)
+    is_active: Mapped[bool] = mapped_column(default=True, server_default=text("true"))

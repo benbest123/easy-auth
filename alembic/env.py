@@ -17,7 +17,10 @@ config = context.config
 
 config.set_main_option("sqlalchemy.url", get_settings().database_url.get_secret_value())
 
-EXCLUDED_INDEXES = ["ix_users_email_lower"]
+# manage indexes to exclude from diffs
+# ix_users_email_lower excluded as functional index on lower(email) not picked up
+# by alembic, so this index is hand modified in the migration
+EXCLUDED_INDEXES = frozenset({"ix_users_email_lower"})
 
 
 def include_object(
@@ -65,6 +68,7 @@ def run_migrations_offline() -> None:
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
         include_object=include_object,
+        compare_server_default=True,
     )
 
     with context.begin_transaction():
@@ -76,6 +80,7 @@ def do_run_migrations(connection: Connection) -> None:
         connection=connection,
         target_metadata=target_metadata,
         include_object=include_object,
+        compare_server_default=True,
     )
 
     with context.begin_transaction():
