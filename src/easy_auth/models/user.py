@@ -3,8 +3,7 @@ from uuid import UUID, uuid4
 from sqlalchemy import Index, text
 from sqlalchemy.orm import Mapped, mapped_column
 
-from easy_auth.core.db import Base
-from easy_auth.models.mixins import TimestampMixin
+from easy_auth.models.mixins import Base, TimestampMixin
 
 
 class User(Base, TimestampMixin):

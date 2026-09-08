@@ -2,8 +2,7 @@ from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 
-from easy_auth.core.db import Base
-from easy_auth.models.mixins import TimestampMixin
+from easy_auth.models.mixins import Base, TimestampMixin
 
 
 class Client(Base, TimestampMixin):

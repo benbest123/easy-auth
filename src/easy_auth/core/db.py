@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import DeclarativeBase
 
 from easy_auth.core.config import get_settings
 
@@ -28,10 +27,6 @@ def get_engine() -> AsyncEngine:
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
 
     return async_sessionmaker(get_engine(), expire_on_commit=False)
-
-
-class Base(DeclarativeBase):
-    pass
 
 
 async def get_db() -> AsyncIterator[AsyncSession]:
