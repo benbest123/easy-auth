@@ -4,7 +4,6 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from easy_auth.core.exceptions import (
-    ClientInactiveError,
     ClientNotFoundError,
 )
 from easy_auth.models.client import Client
@@ -20,7 +19,7 @@ async def get_active_client(session: AsyncSession, client_id: str) -> Client:
         raise ClientNotFoundError(f"client {client_id} not found")
 
     if not client.is_active:
-        raise ClientInactiveError(f"client {client_id} is not active")
+        raise ClientNotFoundError(f"client {client_id} is not active")
 
     return client
 

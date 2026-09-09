@@ -18,3 +18,4 @@ class RegisterRequest(BaseModel):
 
 class RegisterResponse(BaseModel):
     email: EmailStr
+    pending_approval: bool
