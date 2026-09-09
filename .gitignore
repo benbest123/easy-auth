@@ -11,3 +11,6 @@ wheels/
 certs/
 keys/
 .env
+
+# Scratch files
+scratch.py

@@ -1,5 +1,4 @@
 from typing import Annotated
-from uuid import UUID
 
 from pydantic import BaseModel, BeforeValidator, EmailStr, Field
 
@@ -18,5 +17,4 @@ class RegisterRequest(BaseModel):
 
 
 class RegisterResponse(BaseModel):
-    user_id: UUID
     email: EmailStr

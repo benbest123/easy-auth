@@ -1,7 +1,8 @@
 import secrets
 from functools import lru_cache
 
-from argon2 import PasswordHasher, VerifyMismatchError
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 
 ph = PasswordHasher()
 
