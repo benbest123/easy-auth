@@ -1,5 +1,6 @@
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 from pathlib import Path
+from typing import Any
 
 import pytest
 from httpx import ASGITransport, AsyncClient
@@ -57,7 +58,7 @@ def temp_key_path(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[P
 
 @pytest.fixture
 def make_client(session: AsyncSession) -> Callable[..., Awaitable[Client]]:
-    async def _make(client_id: str = "test-client", **kwargs) -> Client:
+    async def _make(client_id: str = "test-client", **kwargs: Any) -> Client:
         client = Client(client_id=client_id, name="Test Client", **kwargs)
         session.add(client)
         await session.flush()
