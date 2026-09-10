@@ -1,11 +1,11 @@
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
 
 from easy_auth.core.config import get_settings
 
 
-def test_read_jwks(client: TestClient) -> None:
+async def test_read_jwks(async_client: AsyncClient) -> None:
 
-    res = client.get("/.well-known/jwks.json")
+    res = await async_client.get("/.well-known/jwks.json")
     assert res.status_code == 200
 
     body = res.json()
